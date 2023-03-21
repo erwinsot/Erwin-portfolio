@@ -1,10 +1,13 @@
 import * as THREE from "three";
 import Experience from "../Experience.js";
 import GSAP from "gsap";
+
 import { ScrollTrigger } from "gsap/ScrollTrigger.js";
 import ASScroll from "@ashthornton/asscroll";
+import axios from "axios";
 
-export default class Controls {
+
+export default class Controls3 {
     constructor() {
         
         this.experience = new Experience();
@@ -35,6 +38,7 @@ export default class Controls {
          {
             this.setSmoothScroll();
         }
+        this.buttonClick();
         this.setScrollTrigger();
     }
 
@@ -89,11 +93,25 @@ export default class Controls {
         this.asscroll = this.setupASScroll();
     }
 
+
+
     setScrollTrigger() {
         ScrollTrigger.matchMedia({
             //Desktop
             "(min-width: 969px)": () => {
                 // console.log("fired desktop");
+
+                const home = document.querySelector('#homeM');
+                const about=document.querySelector("#aboutM")
+        
+                home.addEventListener('click', () => {
+                    GSAP.fromTo("#transition-container",{bottom:9000} ,{bottom:13500, duration: 5,});
+                  });
+        
+                  about.addEventListener('click', () => {
+                    GSAP.fromTo("#transition-container",{bottom:"1120vw"} ,{bottom:"1530vw", duration: 5,});
+                  });
+                
 
                 this.room.scale.set(0.11, 0.11, 0.11);
                 this.rectLight.width = 0.5;
@@ -103,63 +121,146 @@ export default class Controls {
                 // First section -----------------------------------------
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
-                        trigger: ".first-move",
-                        start: "top top",
+                        trigger: ".hero-wrapper",
+                        start: "50",
                         end: "bottom bottom",
-                        scrub: 0.6,
+                        scrub: 7,
                         markers: true,
+                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
                         invalidateOnRefresh: true,
+                        duration:4,
+                        
                     },
                 });
+                this.moveHero = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: ".hero-wrapper",
+                        start: "50",
+                        end: "bottom bottom",
+                        scrub: 7,
+                        markers: true,
+                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        invalidateOnRefresh: true,
+                        duration:3,
+                        
+                    },
+                })
+                
+
+
+
                 this.firstMoveTimeline.fromTo(
                     this.room.position,
                     { x: 0, y: 0, z: 0 },
                     {
+                        duration:4,
                         x: () => {
                             return this.sizes.width * 0.0014;
                         },
                     }
-                );
+                    
+                )
+                .to(
+                    ".about-box-line",
+                    {strokeDashoffset: 0,duration:4,}
+                )
 
-                // Second section -----------------------------------------
+                this.moveTimelineImage = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: ".hero-wrapper",
+                        start: "50",
+                        end: "bottom bottom",
+                        scrub: 7,
+                        markers: true,
+                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        invalidateOnRefresh: true,
+                        duration:4,
+                        
+                    },
+                })
+                .to(".holder",{ duration:2,opacity:1})
+                .to(".about-box-background",{opacity:1})
+                .to(".about-text",{opacity:1})
+                .fromTo(".holder", {yPercent:-100}, {duration: 0.5, yPercent:0})
+                .fromTo(".holder img", {yPercent:100}, {duration: 0.5, yPercent: 0})
+
+                this.moveTimelineBarras = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: ".hero-wrapper",
+                        start: "50",
+                        end: "bottom bottom",
+                        scrub: 7,
+                        markers: true,
+                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        invalidateOnRefresh: true,
+                        duration:4,
+                        
+                    },
+                }).to(".header-about",{opacity:1})
+                .to(".about-skill-bar-container",{width:500})
+
+                .to("#about-skill-container-0",{opacity:1})
+                
+                .to("#about-skill-bar-0",{width:210})
+                .to("#about-skill-bar-1",{width:205})
+                .to("#about-skill-bar-2",{width:230})
+                .to("#about-skill-bar-3",{width:220})
+                .to("#about-skill-bar-4",{width:200})
+               
+              
+     
+
                 this.secondMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: ".second-move",
-                        start: "top top",
+                        start: "-800px",
                         end: "bottom bottom",
-                        scrub: 0.6,
+                        scrub: 4,
+                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
                         invalidateOnRefresh: true,
+                        duration:3
                     },
                 })
-                    .to(
-                        this.room.position,
-                        {
-                            x: () => {
-                                return 1;
-                            },
-                            z: () => {
-                                return this.sizes.height * 0.0032;
-                            },
+                .to(
+                    this.room.position,
+                    {
+                        x: () => {
+                            return 1;
                         },
-                        "same"
-                    )
-                    .to(
-                        this.room.scale,
-                        {
-                            x: 0.4,
-                            y: 0.4,
-                            z: 0.4,
+                        z: () => {
+                            return this.sizes.height * 0.0032;
                         },
-                        "same"
-                    )
-                    .to(
-                        this.rectLight,
-                        {
-                            width: 0.5 * 4,
-                            height: 0.7 * 4,
-                        },
-                        "same"
-                    );
+                    },
+                    "same"
+                )
+                .to(
+                    this.room.scale,
+                    {
+                        x: 0.4,
+                        y: 0.4,
+                        z: 0.4,
+                        
+                    },
+                    
+                    "same"
+                )
+                .to(
+                    this.rectLight,
+                    {
+                        width: 0.5 * 4,
+                        height: 0.7 * 4,
+                    },
+                    "same"
+                )
+                this.moveHero.to(".hero-wrapper",
+                {
+                    y: '-800px',
+                }
+                )
+               
+                // Second section -----------------------------------------
+               
+                 
 
                 // Third section -----------------------------------------
                 this.thirdMoveTimeline = new GSAP.timeline({
@@ -175,16 +276,31 @@ export default class Controls {
                     x: -4.1,
                     
                 });
+                this.thirdMoveTimelineMid = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: ".third-section",
+                        start: "1200px",
+                        end: "bottom bottom",
+                        scrub: 0.6,
+                        invalidateOnRefresh: true,
+                        markers:true
+                    },
+                }).to(this.camera.orthographicCamera.position, {
+                    y: 3,
+                    x: 1,
+                    z:-3.5
+                    
+                });
 
                 // fourth section -----------------------------------------
 
-                this.fourthMoveTimeline = new GSAP.timeline({
+               /*  this.fourthMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: ".fourth-move",
                         start: "top top",
                         end: "bottom bottom",
                         scrub: 0.6,
-                        //markers: true,
+                        markers: true,
                         invalidateOnRefresh: true,
                     },
                 }).to(this.camera.orthographicCamera.position, {
@@ -192,7 +308,7 @@ export default class Controls {
                     x: 1,
                     z:-3.5
                    
-                });
+                }); */
 
                  // fiveth section -----------------------------------------
 
@@ -269,17 +385,85 @@ export default class Controls {
                 // First section -----------------------------------------
                 this.firstMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
-                        trigger: ".first-move",
-                        start: "top top",
+                        trigger: ".hero-wrapper",
+                        start: "50",
                         end: "bottom bottom",
-                        scrub: 0.6,
-                        // invalidateOnRefresh: true,
+                        scrub: 7,
+                        markers: true,
+                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        invalidateOnRefresh: true,
+                        duration:4,
+                        
                     },
-                }).to(this.room.scale, {
+                }).to(".hero-main",{opacity:0})
+                .to(this.room.scale, {
                     x: 0.1,
                     y: 0.1,
                     z: 0.1,
-                });
+                }).to(
+                    ".about-box-line",
+                    {strokeDashoffset: 0,duration:4,}
+                )
+
+                this.moveHero = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: ".hero-wrapper",
+                        start: "50",
+                        end: "bottom bottom",
+                        scrub: 7,
+                        markers: true,
+                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        invalidateOnRefresh: true,
+                        duration:3,
+                        
+                    },
+                })
+
+
+                this.moveTimelineImage = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: ".hero-wrapper",
+                        start: "50",
+                        end: "bottom bottom",
+                        scrub: 7,
+                        markers: true,
+                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        invalidateOnRefresh: true,
+                        duration:4,
+                        
+                    },
+                })
+                .to(".holder",{ duration:2,opacity:1})
+                .to(".about-box-background",{opacity:1})
+                .to(".about-text",{opacity:1})
+                .fromTo(".holder", {yPercent:-100}, {duration: 0.5, yPercent:0})
+                .fromTo(".holder img", {yPercent:100}, {duration: 0.5, yPercent: 0})
+
+                this.moveTimelineBarras = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: ".hero-wrapper",
+                        start: "50",
+                        end: "bottom bottom",
+                        scrub: 7,
+                        markers: true,
+                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        invalidateOnRefresh: true,
+                        duration:4,
+                        
+                    },
+                }).to(".header-about",{opacity:1})
+                .to(".about-skill-bar-container",{width:500})
+
+                .to("#about-skill-container-0",{opacity:1})
+                
+                .to("#about-skill-bar-0",{width:210})
+                .to("#about-skill-bar-1",{width:205})
+                .to("#about-skill-bar-2",{width:230})
+                .to("#about-skill-bar-3",{width:220})
+                .to("#about-skill-bar-4",{width:200})
+
+                
+                
 
                 // Second section -----------------------------------------
                 this.secondMoveTimeline = new GSAP.timeline({
@@ -472,10 +656,11 @@ export default class Controls {
                 // First section -----------------------------------------
                 this.firstCircle = new GSAP.timeline({
                     scrollTrigger: {
-                        trigger: ".first-move",
-                        start: "top top",
+                        trigger: ".hero-wrapper",
+                        start: "50",
                         end: "bottom bottom",
-                        scrub: 0.6,
+                        scrub: 4,
+                        duration:3
                     },
                 }).to(this.circleFirst.scale, {
                     x: 3,
@@ -487,9 +672,10 @@ export default class Controls {
                 this.secondCircle = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: ".second-move",
-                        start: "top top",
+                        start: "-400",
                         end: "bottom bottom",
-                        scrub: 0.6,
+                        scrub: 4,
+                        duration:3
                     },
                 })
                     .to(
@@ -622,6 +808,151 @@ export default class Controls {
             },
         });
         
+        
+    }
+
+    buttonClick(){
+        const miSpan = document.querySelector('#FaceD');
+
+        GSAP.to(".wrapper",{opacity:1})
+        
+        document.getElementById("work-item-orange-button-Face").onclick=()=>{
+            GSAP.to(miSpan, {
+                duration: 3,
+                textContent: 'The project involved using CUDA, Artificial Intelligence, and OpenCV to develop an application for face detection and classification based on specific characteristics. The application was designed to showcase the power of CUDA and Artificial Intelligence in image processing and analysis.To detect faces in images and videos, OpenCV, an open-source computer vision library, and integrated it with CUDA, a parallel computing platform and programming model. This combination allowed for faster processing of image data, enabling the application to detect faces in real-time.',
+                ease:'Elastic.easeInOut.config(1,0.3)'
+              });
+        }
+        document.getElementById("work-item-orange-button-Port").onclick=()=>{
+            GSAP.to("#Port", {
+                duration: 3,
+                textContent: 'This project is a modern web application developed using state-of-the-art technologies,including three.js, javascript, react, node.js, and express.js.The integration of these cutting-edge tools results in a dynamic and interactive user experience.The project is also designed to be highly interactive, allowing users to engage with the content in a variety of ways.For example, users may be able to manipulate objects within the 3D environment, triggering animations or sound effects, or controlling the camera view.',
+                ease:'Elastic.easeInOut.config(1,0.3)'
+              });
+
+        }
+        document.getElementById("work-item-orange-button-Flut").onclick=()=>{
+            GSAP.to("#Flut", {
+                duration: 3,
+                textContent: 'The project involved the use of Flutter, MongoDB, and Java to develop a mobile application that allowed users to create tasks, set due dates and priorities, and set reminders for each task.To store the application data, MongoDB was used as the database. The Java MongoDB Driver library was employed to connect to the MongoDB database and perform various CRUD operations.The resulting application boasted an intuitive and user-friendly interface, with distinct screens for displaying pending tasks, completed tasks, and upcoming tasks.',
+                ease:'Elastic.easeInOut.config(1,0.3)'
+              });
+
+        }
+        document.getElementById("work-item-orange-button-Spa").onclick=()=>{
+            GSAP.to("#Spa", {
+                duration: 3,
+                textContent: 'The project involved using Apache Spark, Matplotlib, SQL, and Highcharts to develop an application for data analysis and visualization. The application processed large datasets using Sparks distributed computing capabilities and stored the data in an SQL database for efficient retrieval and querying.To visualize the data, Matplotlib was used to generate various graphs and charts, providing meaningful insights and trends to the users. Highcharts was used to display the data on a web page in an interactive and visually appealing way',
+                ease:'Elastic.easeInOut.config(1,0.3)'
+              });
+
+        }
+        document.getElementById("work-item-orange-button-Ntf").onclick=()=>{
+            GSAP.to("#Ntf", {
+                duration: 3,
+                textContent: 'The project involved building a decentralized application (DApp) using Web3 to create and manage non-fungible tokens (NFTs) on the Ethereum network. NFTs are unique digital assets that are stored on a blockchain and can represent anything from artwork to virtual real estate. The application was designed to be user-friendly and accessible to users of all technical backgrounds. This enabled the team to create a user-friendly interface that could be used to create and manage NFTs without requiring users to have in-depth knowledge of blockchain technology.',
+                ease:'Elastic.easeInOut.config(1,0.3)'
+              });
+
+        }
+        document.getElementById("work-item-orange-button-Ntf").onclick=()=>{
+            GSAP.to("#Ntf", {
+                duration: 3,
+                textContent: 'The project involved building a decentralized application (DApp) using Web3 to create and manage non-fungible tokens (NFTs) on the Ethereum network. NFTs are unique digital assets that are stored on a blockchain and can represent anything from artwork to virtual real estate. The application was designed to be user-friendly and accessible to users of all technical backgrounds. This enabled the team to create a user-friendly interface that could be used to create and manage NFTs without requiring users to have in-depth knowledge of blockchain technology.',
+                ease:'Elastic.easeInOut.config(1,0.3)'
+              });
+
+        }
+        document.getElementById("work-item-orange-button-Mport").onclick=()=>{
+            GSAP.to("#Mport", {
+                duration: 3,
+                textContent: 'The project involved the use of Three.js, Blender, and Gsap, with patron Singleton to create a 3D web application with multiple scenes. The application was designed to showcase the capabilities of Three.js and React in creating interactive 3D experiences on the web.The 3D models and scenes were created using Blender, an open-source 3D modeling and animation software. The resulting 3D models were then integrated into the web application using Three.js, a JavaScript library for creating 3D graphics and animations in the browser.',
+                ease:'Elastic.easeInOut.config(1,0.3)'
+              });
+
+        }
+
+
+
+
+       
+
+        const btnCon=document.querySelector("#btnCon")
+        const miform=document.querySelector("#miform")
+        const data={
+            "content": "!! **NEW MENSSAGE RECEIVED** !!",
+            "embeds": [
+              {
+                "title": "el nombes es tall",
+                "url": "https://img.freepik.com/vector-gratis/alien-bigote-sombrero-cubo_43623-895.jpg?w=826&t=st=1679367416~exp=1679368016~hmac=bde4724ad4c29190186f61070bc74d8792c69ee014fdd931cd90e9c4b40cf54a",
+                "color": 5814783,
+                "author": {
+                  "name": "NAME",
+                  "icon_url": "https://img.freepik.com/vector-gratis/alien-bigote-sombrero-cubo_43623-895.jpg?w=826&t=st=1679367416~exp=1679368016~hmac=bde4724ad4c29190186f61070bc74d8792c69ee014fdd931cd90e9c4b40cf54a"
+                },
+                "thumbnail": {
+                  "url": "https://img.freepik.com/vector-gratis/kitsune-lindo-personaje-dibujos-animados-espada-objeto-arte-aislado_138676-3159.jpg?w=826&t=st=1679367456~exp=1679368056~hmac=3a79ad11ad87a9aa6215bc0538c65e9e3cb4bbaefc9dd22376bf40974d612e88"
+                }
+              },
+              {
+                "title": "CORREO TAL",
+                "url": "https://img.freepik.com/vector-premium/icono-sobre-correo-3d-notificacion-nuevo-mensaje-sobre-fondo-purpura-carta-correo-electronico-minima-concepto-mensaje-icono-lectura-papel-carta-renderizado-vectorial-3d-fondo-pastel-aislado_412828-881.jpg?w=1380",
+                "color": 15466328,
+                "author": {
+                  "name": "CORREO",
+                  "icon_url": "https://img.freepik.com/vector-premium/icono-sobre-correo-3d-notificacion-nuevo-mensaje-sobre-fondo-purpura-carta-correo-electronico-minima-concepto-mensaje-icono-lectura-papel-carta-renderizado-vectorial-3d-fondo-pastel-aislado_412828-881.jpg?w=1380"
+                },
+                "thumbnail": {
+                  "url": "https://img.freepik.com/vector-premium/icono-sobre-correo-3d-notificacion-nuevo-mensaje-sobre-fondo-purpura-carta-correo-electronico-minima-concepto-mensaje-icono-lectura-papel-carta-renderizado-vectorial-3d-fondo-pastel-aislado_412828-881.jpg?w=1380"
+                }
+              },
+              {
+                "title": "THE MESSAGE IS",
+                "description": "esots lostsoss sfaisasfasdas",
+                "url": "https://img.freepik.com/fotos-premium/burbujas-chat-3d-concepto-minimo-mensajes-redes-sociales-ilustraciones-3d_1096-1637.jpg?w=826",
+                "color": 16734296,
+                "author": {
+                  "name": "MESSAGE",
+                  "icon_url": "https://img.freepik.com/fotos-premium/burbujas-chat-3d-concepto-minimo-mensajes-redes-sociales-ilustraciones-3d_1096-1637.jpg?w=826"
+                },
+                "thumbnail": {
+                  "url": "https://img.freepik.com/fotos-premium/burbujas-chat-3d-concepto-minimo-mensajes-redes-sociales-ilustraciones-3d_1096-1637.jpg?w=826"
+                }
+              }
+            ],
+            "avatar_url": "https://img.freepik.com/vector-gratis/kitsune-lindo-personaje-dibujos-animados-espada-objeto-arte-aislado_138676-3159.jpg?w=826&t=st=1679367456~exp=1679368056~hmac=3a79ad11ad87a9aa6215bc0538c65e9e3cb4bbaefc9dd22376bf40974d612e88",
+            "attachments": []
+        }
+        
+        
+                btnCon.addEventListener('click', (e) => {
+                    e.preventDefault()
+                    const mess=document.getElementById("mess").value;
+                    const name=document.getElementById("name").value;
+                    const email=document.getElementById("email").value;
+
+                    data.embeds[0].title=name
+                    data.embeds[2].description=mess
+                    data.embeds[1].title=email
+                    
+
+
+                    console.log(email)
+                    axios.post("https://discord.com/api/webhooks/969380519013916742/d8wxj_M_1CkRWRTljL-b9P347KAlxjpM1MBMD0pogEWZAjMVg75dsHP7KWejrtAsql2H",data)
+                      .then(response => {
+                        // Aquí puedes procesar la respuesta del servidor
+                      })
+                      .catch(error => {
+                        // Aquí puedes manejar los errores de la solicitud
+                      });
+                    miform.reset()
+                    
+                  });
+       
+
+        
+        
+
         
     }
     resize() {}

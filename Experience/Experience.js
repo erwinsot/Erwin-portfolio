@@ -12,6 +12,8 @@ import Preloader from "./Preloader.js";
 
 import World from "./World/World.js";
 import Controls from "./World/Controls.js";
+import Controls2 from "./World/Controls2.js";
+import Controls3 from "./World/Controls3.js";
 
 export default class Experience {
     static instance;
@@ -32,7 +34,9 @@ export default class Experience {
         this.preloader = new Preloader();
 
         this.preloader.on("enablecontrols", () => {
-            this.controls = new Controls();
+            //this.controls = new Controls();
+            //this.controls2= new Controls2();
+            this.controls3=new Controls3();
         });
 
         this.sizes.on("resize", () => {
