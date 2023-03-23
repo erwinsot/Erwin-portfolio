@@ -1517,7 +1517,7 @@ hr {
 
 .wrapper{
   height: 100%;
-  width: 300px;
+  width: 0px;
   position:fixed;
   opacity: 0;
   z-index: 99999999999999;

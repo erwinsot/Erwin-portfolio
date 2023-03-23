@@ -181,10 +181,11 @@ export default class Controls3 {
                 })
                 //.to(".holder",{ duration:2,opacity:1})
                 .to(".about-box-background",{opacity:1})
-                .to(".about-text",{opacity:1})
-                /* .fromTo(".holder", {yPercent:-100}, {duration: 0.5, yPercent:0}) */
                 .to("#avatar",{ duration:0.5,opacity:1})
                 .fromTo("#avatar", {xPercent:-200}, {duration: 0.5, xPercent: 0})
+                .to(".about-text",{opacity:1})
+                /* .fromTo(".holder", {yPercent:-100}, {duration: 0.5, yPercent:0}) */
+               
                 
 
                 this.moveTimelineBarras = new GSAP.timeline({
@@ -448,10 +449,11 @@ export default class Controls3 {
                     },
                 })
                 /* .to(".holder",{ duration:2,opacity:1}) */
-                .to(".about-box-background",{opacity:1})
-                .to(".about-text",{opacity:1})
                 .to("#avatar",{ duration:0.5,opacity:1})
                 .fromTo("#avatar", {xPercent:-200}, {duration: 0.5, xPercent: 0})
+                .to(".about-box-background",{opacity:1})
+                .to(".about-text",{opacity:1})
+                
 
                 this.moveTimelineBarras = new GSAP.timeline({
                     scrollTrigger: {
