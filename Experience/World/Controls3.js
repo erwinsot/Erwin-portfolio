@@ -533,7 +533,7 @@ export default class Controls3 {
                         end: "bottom bottom",
                         scrub: 0.6,
                         invalidateOnRefresh: true,
-                        markers:true
+                        //markers:true
                     },
                 }).to(this.camera.orthographicCamera.position, {
                     y: 3,
