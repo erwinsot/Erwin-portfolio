@@ -33,7 +33,7 @@ export default class Preloader extends EventEmitter {
 
         this.room = this.experience.world.room.actualRoom;
         this.roomChildren = this.experience.world.room.roomChildren;
-        console.log(this.roomChildren);
+        //console.log(this.roomChildren);
     }
 
     firstIntro() {
@@ -358,7 +358,7 @@ export default class Preloader extends EventEmitter {
         if (e.deltaY > 0) {
             this.removeEventListeners();
             this.playSecondIntro();
-            console.log("swipped up");
+            //console.log("swipped up");
         }
     }
 
@@ -370,7 +370,7 @@ export default class Preloader extends EventEmitter {
         let currentY = e.touches[0].clientY;
         let difference = this.initalY - currentY;
         if (difference > 0) {
-            console.log("swipped up2");
+            //console.log("swipped up2");
             this.removeEventListeners();
             this.playSecondIntro();
         }
@@ -386,7 +386,7 @@ export default class Preloader extends EventEmitter {
     async playIntro() {
         this.scaleFlag = true;
         await this.firstIntro();
-        console.log("xxxxxxxxxxxxxxxxxxxxxxx")
+        
         this.moveFlag = true;
         this.scrollOnceEvent = this.onScroll.bind(this);
         this.touchStart = this.onTouch.bind(this);

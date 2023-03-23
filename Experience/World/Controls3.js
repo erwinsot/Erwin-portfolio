@@ -1,15 +1,15 @@
 import * as THREE from "three";
 import Experience from "../Experience.js";
 import GSAP from "gsap";
-
 import { ScrollTrigger } from "gsap/ScrollTrigger.js";
 import ASScroll from "@ashthornton/asscroll";
 import axios from "axios";
+const url=`https://discord.com/api/webhooks/${import.meta.env.VITE_ID}/${import.meta.env.VITE_TOKEN}` 
 
 
 export default class Controls3 {
     constructor() {
-        
+        //console.log(backendPort)
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.sizes = this.experience.sizes;
@@ -99,9 +99,10 @@ export default class Controls3 {
         ScrollTrigger.matchMedia({
             //Desktop
             "(min-width: 969px)": () => {
+                GSAP.to(".wrapper",{opacity:1})
                 // console.log("fired desktop");
 
-                const home = document.querySelector('#homeM');
+               /*  const home = document.querySelector('#homeM');
                 const about=document.querySelector("#aboutM")
         
                 home.addEventListener('click', () => {
@@ -110,7 +111,7 @@ export default class Controls3 {
         
                   about.addEventListener('click', () => {
                     GSAP.fromTo("#transition-container",{bottom:"1120vw"} ,{bottom:"1530vw", duration: 5,});
-                  });
+                  }); */
                 
 
                 this.room.scale.set(0.11, 0.11, 0.11);
@@ -125,8 +126,8 @@ export default class Controls3 {
                         start: "50",
                         end: "bottom bottom",
                         scrub: 7,
-                        markers: true,
-                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        //markers: true,
+                        //markers: {startColor: "green", endColor: "red", fontSize: "12px"},
                         invalidateOnRefresh: true,
                         duration:4,
                         
@@ -138,8 +139,8 @@ export default class Controls3 {
                         start: "50",
                         end: "bottom bottom",
                         scrub: 7,
-                        markers: true,
-                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                       // markers: true,
+                       // markers: {startColor: "green", endColor: "red", fontSize: "12px"},
                         invalidateOnRefresh: true,
                         duration:3,
                         
@@ -171,18 +172,20 @@ export default class Controls3 {
                         start: "50",
                         end: "bottom bottom",
                         scrub: 7,
-                        markers: true,
-                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        //markers: true,
+                        //markers: {startColor: "green", endColor: "red", fontSize: "12px"},
                         invalidateOnRefresh: true,
                         duration:4,
                         
                     },
                 })
-                .to(".holder",{ duration:2,opacity:1})
+                //.to(".holder",{ duration:2,opacity:1})
                 .to(".about-box-background",{opacity:1})
                 .to(".about-text",{opacity:1})
-                .fromTo(".holder", {yPercent:-100}, {duration: 0.5, yPercent:0})
-                .fromTo(".holder img", {yPercent:100}, {duration: 0.5, yPercent: 0})
+                /* .fromTo(".holder", {yPercent:-100}, {duration: 0.5, yPercent:0}) */
+                .to("#avatar",{ duration:0.5,opacity:1})
+                .fromTo("#avatar", {xPercent:-200}, {duration: 0.5, xPercent: 0})
+                
 
                 this.moveTimelineBarras = new GSAP.timeline({
                     scrollTrigger: {
@@ -190,8 +193,8 @@ export default class Controls3 {
                         start: "50",
                         end: "bottom bottom",
                         scrub: 7,
-                        markers: true,
-                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        //markers: true,
+                        //markers: {startColor: "green", endColor: "red", fontSize: "12px"},
                         invalidateOnRefresh: true,
                         duration:4,
                         
@@ -216,7 +219,7 @@ export default class Controls3 {
                         start: "-800px",
                         end: "bottom bottom",
                         scrub: 4,
-                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        //markers: {startColor: "green", endColor: "red", fontSize: "12px"},
                         invalidateOnRefresh: true,
                         duration:3
                     },
@@ -374,7 +377,18 @@ export default class Controls3 {
             // Mobile
             "(max-width: 968px)": () => {
                 // console.log("fired mobile");
-
+/* 
+                const home = document.querySelector('#homeM');
+                const about=document.querySelector("#aboutM")
+        
+                home.addEventListener('click', () => {
+                    GSAP.fromTo("#transition-container",{bottom:9000} ,{bottom:13500, duration: 5,});
+                  });
+        
+                  about.addEventListener('click', () => {
+                    GSAP.fromTo("#transition-container",{bottom:"1120vw"} ,{bottom:"1530vw", duration: 5,});
+                  });
+ */
                 // Resets
                 this.room.scale.set(0.07, 0.07, 0.07);
                 this.room.position.set(0, 0, 0);
@@ -389,8 +403,8 @@ export default class Controls3 {
                         start: "50",
                         end: "bottom bottom",
                         scrub: 7,
-                        markers: true,
-                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                       // markers: true,
+                        //markers: {startColor: "green", endColor: "red", fontSize: "12px"},
                         invalidateOnRefresh: true,
                         duration:4,
                         
@@ -411,8 +425,8 @@ export default class Controls3 {
                         start: "50",
                         end: "bottom bottom",
                         scrub: 7,
-                        markers: true,
-                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        //markers: true,
+                        //markers: {startColor: "green", endColor: "red", fontSize: "12px"},
                         invalidateOnRefresh: true,
                         duration:3,
                         
@@ -426,18 +440,18 @@ export default class Controls3 {
                         start: "50",
                         end: "bottom bottom",
                         scrub: 7,
-                        markers: true,
-                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        //markers: true,
+                        //markers: {startColor: "green", endColor: "red", fontSize: "12px"},
                         invalidateOnRefresh: true,
                         duration:4,
                         
                     },
                 })
-                .to(".holder",{ duration:2,opacity:1})
+                /* .to(".holder",{ duration:2,opacity:1}) */
                 .to(".about-box-background",{opacity:1})
                 .to(".about-text",{opacity:1})
-                .fromTo(".holder", {yPercent:-100}, {duration: 0.5, yPercent:0})
-                .fromTo(".holder img", {yPercent:100}, {duration: 0.5, yPercent: 0})
+                .to("#avatar",{ duration:0.5,opacity:1})
+                .fromTo("#avatar", {xPercent:-200}, {duration: 0.5, xPercent: 0})
 
                 this.moveTimelineBarras = new GSAP.timeline({
                     scrollTrigger: {
@@ -445,8 +459,8 @@ export default class Controls3 {
                         start: "50",
                         end: "bottom bottom",
                         scrub: 7,
-                        markers: true,
-                        markers: {startColor: "green", endColor: "red", fontSize: "12px"},
+                        //markers: true,
+                       // markers: {startColor: "green", endColor: "red", fontSize: "12px"},
                         invalidateOnRefresh: true,
                         duration:4,
                         
@@ -512,10 +526,25 @@ export default class Controls3 {
                 }).to(this.room.position, {
                     z: -4.5,
                 });
+                this.thirdMoveTimelineMid = new GSAP.timeline({
+                    scrollTrigger: {
+                        trigger: ".third-section",
+                        start: "1200px",
+                        end: "bottom bottom",
+                        scrub: 0.6,
+                        invalidateOnRefresh: true,
+                        markers:true
+                    },
+                }).to(this.camera.orthographicCamera.position, {
+                    y: 3,
+                    x: 1,
+                    z:-3.5
+                    
+                });
 
                 // fourth section -----------------------------------------
 
-                this.fourthMoveTimeline = new GSAP.timeline({
+                /* this.fourthMoveTimeline = new GSAP.timeline({
                     scrollTrigger: {
                         trigger: ".fourth-move",
                         start: "top top",
@@ -529,7 +558,7 @@ export default class Controls3 {
                     x: 2.5,
                     z:-4
                    
-                });
+                }); */
 
                  // fiveth section -----------------------------------------
 
@@ -546,15 +575,18 @@ export default class Controls3 {
                 .to(
                     this.room.position,
                     {
-                        x: () => {
-                            return this.sizes.width * 0.0065;
+                       /*  x: () => {
+                            return this.sizes.width * -0.0005;
                         },
                         z: () => {
-                            return this.sizes.height * -0.011;
+                            return this.sizes.height * -0.0021;
                         },
-                        /* y: () => {
-                            return this.sizes.height * -0.0014;
+                        y: () => {
+                            return this.sizes.height * 0.0054;
                         }, */
+                        x:1,
+                        y:6,
+                        z:0
                     },
                     "same"
                 )
@@ -813,7 +845,6 @@ export default class Controls3 {
 
     buttonClick(){
         const miSpan = document.querySelector('#FaceD');
-
         GSAP.to(".wrapper",{opacity:1})
         
         document.getElementById("work-item-orange-button-Face").onclick=()=>{
@@ -879,6 +910,7 @@ export default class Controls3 {
 
         const btnCon=document.querySelector("#btnCon")
         const miform=document.querySelector("#miform")
+
         const data={
             "content": "!! **NEW MENSSAGE RECEIVED** !!",
             "embeds": [
@@ -938,7 +970,7 @@ export default class Controls3 {
 
 
                     console.log(email)
-                    axios.post("https://discord.com/api/webhooks/969380519013916742/d8wxj_M_1CkRWRTljL-b9P347KAlxjpM1MBMD0pogEWZAjMVg75dsHP7KWejrtAsql2H",data)
+                    axios.post(url,data)
                       .then(response => {
                         // Aquí puedes procesar la respuesta del servidor
                       })

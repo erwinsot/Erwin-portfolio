@@ -13,7 +13,7 @@ export default class Room {
         this.room = this.resources.items.room;
         this.actualRoom = this.room.scene;
         this.roomChildren = {};
-        console.log(this.actualRoom);
+        //console.log(this.actualRoom);
 
         this.lerp = {
             current: 0,
@@ -53,6 +53,9 @@ export default class Room {
             if (child.name === "Computer") {
                 child.children[1].material = new THREE.MeshBasicMaterial({
                     map: this.resources.items.screen,
+                });
+                child.children[0].material = new THREE.MeshBasicMaterial({color:0xffffff
+                   
                 });
             }
 

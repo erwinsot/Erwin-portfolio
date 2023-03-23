@@ -517,10 +517,10 @@ svg{
 
 /* Media Queries */
 .wrapper-img {
-  width: 9.8vw;  
+  width: 8.8vw;  
   overflow: hidden;
   position: absolute;
-  top: 59vh;
+  top: 55vh;
   left: 18%;
  
 }
@@ -574,7 +574,7 @@ svg{
     width: 20vw;  
     overflow: hidden;
     position: absolute;
-    top: 62vh;
+    top: 56vh;
     left: 10vw;
     z-index: 100;
   }
@@ -618,9 +618,9 @@ svg{
 
 /* Style all font awesome icons */
 .fa {
-  padding: 13px;
-  font-size: 30px;
-  width: 50px;
+  padding: 0px;
+  font-size: 20px;
+  width: 30px;
   text-align: center;
   text-decoration: none;
   margin: 5px 2px;
@@ -1518,8 +1518,9 @@ hr {
 .wrapper{
   height: 100%;
   width: 300px;
-  position: absolute;
+  position:fixed;
   opacity: 0;
+  z-index: 99999999999999;
 }
 .wrapper .menu-btn{
   position: absolute;
